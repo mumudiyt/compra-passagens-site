@@ -6,6 +6,36 @@
     <title>Compra de Passagem</title>
 Criado por: Murillo
     <style>
+
+.poltronas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.linha {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.poltrona {
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.poltrona.selecionada {
+  background-color: #4caf50;
+  color: white;
+}
+.corredor {
+  width: 20px;
+}
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -131,6 +161,26 @@ Criado por: Murillo
                 <option value="noite">Noite</option>
             </select>
 
+<label for="poltrona">Escolha sua poltrona:</label>
+<div class="poltronas">
+  <div class="linha">
+    <div class="poltrona" onclick="selecionarPoltrona(this)">1A</div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">1B</div>
+    <div class="poltrona corredor"></div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">1C</div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">1D</div>
+  </div>
+  <div class="linha">
+    <div class="poltrona" onclick="selecionarPoltrona(this)">2A</div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">2B</div>
+    <div class="poltrona corredor"></div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">2C</div>
+    <div class="poltrona" onclick="selecionarPoltrona(this)">2D</div>
+  </div>
+</div>
+<input type="hidden" id="poltronaEscolhida" name="poltrona">
+
+
             <label for="bagagem">Bagagem despachada:</label>
             <select id="bagagem" name="bagagem">
                 <option value="sim">Sim</option>
@@ -147,6 +197,18 @@ Criado por: Murillo
     </div>
 
     <script>
+
+function selecionarPoltrona(el) {
+  // Desmarca qualquer outra poltrona
+  document.querySelectorAll('.poltrona').forEach(p => p.classList.remove('selecionada'));
+
+  // Marca a clicada
+  el.classList.add('selecionada');
+
+  // Atualiza o input escondido com o valor
+  document.getElementById('poltronaEscolhida').value = el.textContent;
+}
+
         function toggleVolta() {
             const tipoViagem = document.getElementById('tipoViagem').value;
             const voltaDiv = document.getElementById('voltaDiv');
