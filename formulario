@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Passagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resumo {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Compra de Passagem Aérea</h1>
+        <form id="formPassagem">
+            <label for="origem">Origem:</label>
+            <input type="text" id="origem" name="origem" placeholder="Digite a cidade de origem">
+
+            <label for="destino">Destino:</label>
+            <input type="text" id="destino" name="destino" placeholder="Digite a cidade de destino">
+
+            <label for="tipoViagem">Tipo de viagem:</label>
+            <select id="tipoViagem" name="tipoViagem" onchange="toggleVolta()">
+                <option value="ida">Só ida</option>
+                <option value="idaEvolta">Ida e volta</option>
+            </select>
+
+            <label for="dataIda">Data da ida:</label>
+            <input type="date" id="dataIda" name="dataIda">
+
+            <div id="voltaDiv" style="display:none;">
+                <label for="dataVolta">Data da volta:</label>
+                <input type="date" id="dataVolta" name="dataVolta">
+            </div>
+
+            <label for="adultos">Quantidade de adultos:</label>
+            <input type="number" id="adultos" name="adultos" min="1" value="1">
+
+            <label for="criancas">Quantidade de crianças:</label>
+            <input type="number" id="criancas" name="criancas" min="0" value="0">
+
+            <label for="bebes">Quantidade de bebês:</label>
+            <input type="number" id="bebes" name="bebes" min="0" value="0">
+
+            <label for="classe">Classe:</label>
+            <select id="classe" name="classe">
+                <option value="economica">Econômica</option>
+                <option value="premium">Econômica Premium</option>
+                <option value="executiva">Executiva</option>
+                <option value="primeira">Primeira Classe</option>
+            </select>
+
+            <label for="horario">Preferência de horário:</label>
+            <select id="horario" name="horario">
+                <option value="qualquer">Qualquer horário</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+            </select>
+
+            <label for="bagagem">Bagagem despachada:</label>
+            <select id="bagagem" name="bagagem">
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+            </select>
+
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes" rows="3"></textarea>
+
+            <button type="button" onclick="resumirCompra()">Continuar</button>
+        </form>
+
+        <div id="resumo"></div>
+    </div>
+
+    <script>
+        function toggleVolta() {
+            const tipoViagem = document.getElementById('tipoViagem').value;
+            const voltaDiv = document.getElementById('voltaDiv');
+            voltaDiv.style.display = tipoViagem === 'idaEvolta' ? 'block' : 'none';
+        }
+
+        function resumirCompra() {
+            const origem = document.getElementById('origem').value;
+            const destino = document.getElementById('destino').value;
+            const tipoViagem = document.getElementById('tipoViagem').value;
+            const dataIda = document.getElementById('dataIda').value;
+            const dataVolta = document.getElementById('dataVolta').value;
+            const adultos = document.getElementById('adultos').value;
+            const criancas = document.getElementById('criancas').value;
+            const bebes = document.getElementById('bebes').value;
+            const classe = document.getElementById('classe').value;
+            const horario = document.getElementById('horario').value;
+            const bagagem = document.getElementById('bagagem').value;
+            const observacoes = document.getElementById('observacoes').value;
+
+            let resumo = `<h3>Resumo da Compra:</h3>
+                <p><strong>Origem:</strong> ${origem}<br>
+                <strong>Destino:</strong> ${destino}<br>
+                <strong>Tipo de Viagem:</strong> ${tipoViagem === 'idaEvolta' ? 'Ida e Volta' : 'Só Ida'}<br>
+                <strong>Data da Ida:</strong> ${dataIda}<br>`;
+
+            if (tipoViagem === 'idaEvolta') {
+                resumo += `<strong>Data da Volta:</strong> ${dataVolta}<br>`;
+            }
+
+            resumo += `<strong>Adultos:</strong> ${adultos}<br>
+                <strong>Crianças:</strong> ${criancas}<br>
+                <strong>Bebês:</strong> ${bebes}<br>
+                <strong>Classe:</strong> ${classe}<br>
+                <strong>Horário Preferido:</strong> ${horario}<br>
+                <strong>Bagagem Despachada:</strong> ${bagagem}<br>
+                <strong>Observações:</strong> ${observacoes || 'Nenhuma'}</p>`;
+
+            document.getElementById('resumo').innerHTML = resumo;
+        }
+    </script>
+</body>
+</html>
